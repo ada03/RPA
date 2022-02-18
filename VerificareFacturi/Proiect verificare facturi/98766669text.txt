@@ -1,0 +1,19 @@
+Furnizor Dummy Client
+SC TESSA SRL
+Nr. Reg. Cem: BT Nr. Reg. 987986
+CIF: corer Com.
+Adresa: rr Cul 56345676
+} Str Vanatorilor, nr 14, sc 7, ap 2
+Email: i Adresa: ci Napoca, CLUj
+Tel: — Banca: BANCA TRANSILVANIA
+Banca: or Cont; ROM BTRL01201203133489XX
+Cont: —
+Factura seria: G nr.: 4 data: 01.09.2021 Cota TVA: 20%
+Denumire produse sau servicii . UM. Cant. Pret TVA Total
+| 45234 - Scaun birou ergonomic | buc : 15 | 1500 | 300 1800
+6451435- Masa birou | buc 10 | 500 100 600
+Pret fara TVA 33000
+Valoare TVA 5500
+Total de plata 38500
+a
+Clasificare BT: Uz Intern

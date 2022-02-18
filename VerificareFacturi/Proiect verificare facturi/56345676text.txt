@@ -1,0 +1,23 @@
+Furnizor Dummy Client
+SC GRM SRL
+Nr. Reg. Com: ... Nr. Reg. 987986
+CIF: fp Com.
+Adresa: ha cul 56345676
+} Adresa: Calea Fariseilor, nr 44, sc 1, ap 16
+Email: eee
+Tel: ro Banca: BANCA TRANSILVANIA
+Banca: ro Cont: RO77BTRL099201208822489XX
+Cont: oeee 0
+Factura seria: G nr.: 37 data: 15.09.2021 Cota TVA: 20%
+Denumire produse sau servicii i _ UM. Cent. Pret TVA Total
+| XX45324- Mobilier din lemn- set masa cu 4 scaune | buc {| 2 2000 400 | 2400
+A I
+| SE Po
+SE bd
+Pret fara TVA 2000
+Valoare TVA 400
+Total de plata 2400
+Semnatura reprezentan!
+A
+- §
+Clasificare BT: Uz Intern :
