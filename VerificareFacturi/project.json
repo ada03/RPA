@@ -1,0 +1,99 @@
+{
+  "name": "VerificareFacturi",
+  "description": "Tip robot: unattended\r\nFrecventa process: lunar\r\nTrigger process: primire mail cu subject predefinit “Verificare facturi” + adresa de mail predefinita\r\n",
+  "main": "Main.xaml",
+  "dependencies": {
+    "itext7": "[7.2.1]",
+    "UiPath.Excel.Activities": "[2.11.4]",
+    "UiPath.ImageProcessing": "[21.10.2]",
+    "UiPath.Mail.Activities": "[1.12.3]",
+    "UiPath.PDF.Activities": "[3.4.1]",
+    "UiPath.System.Activities": "[21.10.3]",
+    "UiPath.Testing.Activities": "[1.4.4]",
+    "UiPath.UIAutomation.Activities": "[21.10.4]"
+  },
+  "webServices": [],
+  "entitiesStores": [],
+  "schemaVersion": "4.0",
+  "studioVersion": "21.10.4.0",
+  "projectVersion": "1.0.0",
+  "runtimeOptions": {
+    "autoDispose": false,
+    "netFrameworkLazyLoading": false,
+    "isPausable": true,
+    "isAttended": false,
+    "requiresUserInteraction": true,
+    "supportsPersistence": false,
+    "excludedLoggedData": [
+      "Private:*",
+      "*password*"
+    ],
+    "executionType": "Workflow",
+    "readyForPiP": false,
+    "startsInPiP": false,
+    "mustRestoreAllDependencies": true
+  },
+  "designOptions": {
+    "projectProfile": "Developement",
+    "outputType": "Process",
+    "libraryOptions": {
+      "includeOriginalXaml": false,
+      "privateWorkflows": []
+    },
+    "processOptions": {
+      "ignoredFiles": []
+    },
+    "fileInfoCollection": [
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "5f97bf4d-7eae-4d08-b1c2-05863b295499",
+        "dataVariationFilePath": ".variations\\Tests_Tests.json",
+        "fileName": "Tests\\GeneralTestCase.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "c4428b8d-e03d-4798-beb7-474ce2d6f784",
+        "fileName": "Tests\\GetTransactionDataTestCase.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "46c55072-2f40-4cb1-878e-faae5e89864f",
+        "fileName": "Tests\\InitAllApplicationsTestCase.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "fb712a6a-d63a-40ca-9e46-2ed14bccad86",
+        "fileName": "Tests\\InitAllSettingsTestCase.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "4765b06a-081a-4791-9d04-a992eb604214",
+        "fileName": "Tests\\MainTestCase.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "83851474-d4f0-4b2d-89a3-41347232895e",
+        "fileName": "Tests\\ProcessTestCase.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "f0cab747-61d8-429e-b2dc-7cb469e6b543",
+        "fileName": "Tests\\WorkflowTestCaseTemplate.xaml"
+      }
+    ],
+    "modernBehavior": false
+  },
+  "expressionLanguage": "VisualBasic",
+  "entryPoints": [
+    {
+      "filePath": "Main.xaml",
+      "uniqueId": "0a5ac4a8-2480-40af-80dc-e66ad9ffef2d",
+      "input": [],
+      "output": []
+    }
+  ],
+  "isTemplate": false,
+  "templateProjectData": {},
+  "publishData": {},
+  "targetFramework": "Legacy"
+}

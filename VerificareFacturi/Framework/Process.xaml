@@ -1,0 +1,478 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(sd:DataRow)" />
+    <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="io_Report" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="io_TransactionData" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="in_Transaction_number" Type="InArgument(x:Int32)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1796,1980</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="30">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Windows.Forms</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="30">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.Windows.Forms</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Data.Entity</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="1806,1915" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Flowchart DisplayName="Process" sap:VirtualizedContainerService.HintSize="1764,1747" sap2010:WorkflowViewState.IdRef="Flowchart_1">
+      <Flowchart.Variables>
+        <Variable x:TypeArguments="x:String" Name="Invoices_Folder" />
+        <Variable x:TypeArguments="x:String" Name="PDF" />
+        <Variable x:TypeArguments="sd:DataTable" Name="dt_PDF_info" />
+        <Variable x:TypeArguments="x:String" Name="Comments" />
+      </Flowchart.Variables>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          <av:Point x:Key="ShapeLocation">580,2.5</av:Point>
+          <av:Size x:Key="ShapeSize">60,75</av:Size>
+          <av:PointCollection x:Key="ConnectorLocation">610,77.5 610,127.5</av:PointCollection>
+          <x:Double x:Key="Height">1711.2068872412838</x:Double>
+          <x:Double x:Key="Width">1730</x:Double>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <Flowchart.StartNode>
+        <x:Reference>__ReferenceID15</x:Reference>
+      </Flowchart.StartNode>
+      <FlowStep x:Name="__ReferenceID15">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">510,127.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,52</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">610,178.5 610,218.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="LogMessage_2" Message="[&quot;Process Started&quot;]">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </ui:LogMessage>
+        <FlowStep.Next>
+          <FlowStep x:Name="__ReferenceID2">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <av:Point x:Key="ShapeLocation">510,218.5</av:Point>
+                <av:Size x:Key="ShapeSize">200,52</av:Size>
+                <av:PointCollection x:Key="ConnectorLocation">610,269.5 610,299.5 609.895,299.5 609.895,309.5</av:PointCollection>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="LogMessage_3" Message="[&quot;Get invoices list&quot;]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:LogMessage>
+            <FlowStep.Next>
+              <FlowStep x:Name="__ReferenceID3">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <av:Point x:Key="ShapeLocation">478.895,309.5</av:Point>
+                    <av:Size x:Key="ShapeSize">262,60</av:Size>
+                    <av:PointCollection x:Key="ConnectorLocation">609.895,369.5 609.895,419.5</av:PointCollection>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Assign sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[Invoices_Folder]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">Proiect verificare facturi</InArgument>
+                  </Assign.Value>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Assign>
+                <FlowStep.Next>
+                  <FlowStep x:Name="__ReferenceID1">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <av:Point x:Key="ShapeLocation">509.895,419.5</av:Point>
+                        <av:Size x:Key="ShapeSize">200,52</av:Size>
+                        <av:PointCollection x:Key="ConnectorLocation">609.895,470.5 609.895,500.5 610,500.5 610,526.5</av:PointCollection>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each CUI" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[Directory.GetFiles(Invoices_Folder,&quot;*.pdf&quot;)]">
+                      <ui:ForEach.Body>
+                        <ActivityAction x:TypeArguments="x:String">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="x:String" Name="invoice" />
+                          </ActivityAction.Argument>
+                          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="526,629" sap2010:WorkflowViewState.IdRef="Sequence_2">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <If Condition="[Path.GetFileName(invoice).Contains(in_TransactionItem(&quot;CUI&quot;).ToString+&quot;.pdf&quot;)]" sap:VirtualizedContainerService.HintSize="484,537" sap2010:WorkflowViewState.IdRef="If_1">
+                              <If.Then>
+                                <Sequence sap:VirtualizedContainerService.HintSize="376,347" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,93" sap2010:WorkflowViewState.IdRef="LogMessage_4" Message="[&quot;Invoice found for the client: &quot;+in_TransactionItem(&quot;Nume_client&quot;).ToString+&quot; CUI: &quot;+in_TransactionItem(&quot;CUI&quot;).ToString]" />
+                                  <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[PDF]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">[invoice]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <ui:Break sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Break_1" />
+                                </Sequence>
+                              </If.Then>
+                              <If.Else>
+                                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_4">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </Sequence>
+                              </If.Else>
+                            </If>
+                          </Sequence>
+                        </ActivityAction>
+                      </ui:ForEach.Body>
+                    </ui:ForEach>
+                    <FlowStep.Next>
+                      <FlowDecision x:Name="__ReferenceID4" Condition="[PDF=Nothing]" DisplayName="Invoice missing?" sap:VirtualizedContainerService.HintSize="92,87" sap2010:WorkflowViewState.IdRef="FlowDecision_1">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <av:Point x:Key="ShapeLocation">563.5,526.5</av:Point>
+                            <av:Size x:Key="ShapeSize">92,87</av:Size>
+                            <av:PointCollection x:Key="TrueConnector">563.5,570 420,570 420,659</av:PointCollection>
+                            <av:PointCollection x:Key="FalseConnector">656.5,570 880,570 880,644.5</av:PointCollection>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <FlowDecision.True>
+                          <FlowStep x:Name="__ReferenceID5">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <av:Point x:Key="ShapeLocation">320,659</av:Point>
+                                <av:Size x:Key="ShapeSize">200,22</av:Size>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <Throw DisplayName="Throw BRE no invoice" Exception="[NEW BusinessRuleException(&quot;Invoice not found for: &quot;+ in_TransactionItem(&quot;CUI&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_1">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </Throw>
+                          </FlowStep>
+                        </FlowDecision.True>
+                        <FlowDecision.False>
+                          <FlowStep x:Name="__ReferenceID6">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <av:Point x:Key="ShapeLocation">780,644.5</av:Point>
+                                <av:Size x:Key="ShapeSize">200,52</av:Size>
+                                <av:PointCollection x:Key="ConnectorLocation">880,695.5 880,746.5</av:PointCollection>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke GetDataPDF workflow" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="GetDataPDF.xaml">
+                              <ui:InvokeWorkflowFile.Arguments>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_PDF">
+                                  <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="PDF" />
+                                </InArgument>
+                                <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_dt_PDF_info">
+                                  <mva:VisualBasicReference x:TypeArguments="sd:DataTable" ExpressionText="dt_PDF_info" />
+                                </OutArgument>
+                              </ui:InvokeWorkflowFile.Arguments>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </ui:InvokeWorkflowFile>
+                            <FlowStep.Next>
+                              <FlowStep x:Name="__ReferenceID7">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <av:Point x:Key="ShapeLocation">780,746.5</av:Point>
+                                    <av:Size x:Key="ShapeSize">200,52</av:Size>
+                                    <av:PointCollection x:Key="ConnectorLocation">880,797.5 880,854.5</av:PointCollection>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:WriteRange AddHeaders="True" DataTable="[dt_PDF_info]" DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="WriteRange_2" SheetName="Sheet1" StartingCell="A1" WorkbookPath="[&quot;Data\Output\&quot;+in_TransactionItem(&quot;CUI&quot;).ToString+&quot;.xlsx&quot;]">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:WriteRange>
+                                <FlowStep.Next>
+                                  <FlowStep x:Name="__ReferenceID8">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <av:Point x:Key="ShapeLocation">780,854.5</av:Point>
+                                        <av:Size x:Key="ShapeSize">200,52</av:Size>
+                                        <av:PointCollection x:Key="ConnectorLocation">880,905.5 880,994.5</av:PointCollection>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke CheckDataPDF workflow" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="CheckDataPDF.xaml">
+                                      <ui:InvokeWorkflowFile.Arguments>
+                                        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_PDF_info">
+                                          <mva:VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="dt_PDF_info" />
+                                        </InArgument>
+                                        <InArgument x:TypeArguments="sd:DataRow" x:Key="in_TransactionItem">
+                                          <mva:VisualBasicValue x:TypeArguments="sd:DataRow" ExpressionText="in_TransactionItem" />
+                                        </InArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="out_Comments">
+                                          <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="Comments" />
+                                        </OutArgument>
+                                      </ui:InvokeWorkflowFile.Arguments>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </ui:InvokeWorkflowFile>
+                                    <FlowStep.Next>
+                                      <FlowStep x:Name="__ReferenceID9">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <av:Point x:Key="ShapeLocation">780,994.5</av:Point>
+                                            <av:Size x:Key="ShapeSize">200,52</av:Size>
+                                            <av:PointCollection x:Key="ConnectorLocation">880,1046.5 880,1096.5</av:PointCollection>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="LogMessage_7" Message="[&quot;Add data to Report&quot;]">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                        </ui:LogMessage>
+                                        <FlowStep.Next>
+                                          <FlowStep x:Name="__ReferenceID10">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <av:Point x:Key="ShapeLocation">780,1096.5</av:Point>
+                                                <av:Size x:Key="ShapeSize">200,52</av:Size>
+                                                <av:PointCollection x:Key="ConnectorLocation">880,1147.5 880,1177.5 882.641666666667,1177.5 882.641666666667,1197.5</av:PointCollection>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{in_TransactionItem(&quot;Nume_client&quot;).tostring,dt_PDF_info(0).item(&quot;Client_Name&quot;).tostring,in_TransactionItem(&quot;CUI&quot;).tostring,in_TransactionItem(&quot;Nr_factura&quot;).tostring,in_TransactionItem(&quot;Data_factura&quot;).tostring, _&#xD;&#xA;dt_PDF_info(0).item(&quot;Invoice_No&quot;).tostring+ &quot;/&quot; +dt_PDF_info(0).item(&quot;Invoice_Date&quot;).tostring,dt_PDF_info(0).item(&quot;Product_Code&quot;).tostring,dt_PDF_info(0).item(&quot;Invoice_Total&quot;).tostring, Comments}]" DataTable="[io_Report]" DisplayName="Add Data Row Out DT" sap:VirtualizedContainerService.HintSize="334,188" sap2010:WorkflowViewState.IdRef="AddDataRow_1">
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </ui:AddDataRow>
+                                            <FlowStep.Next>
+                                              <FlowDecision x:Name="__ReferenceID11" DisplayName="Product Code?" sap:VirtualizedContainerService.HintSize="84,87" sap2010:WorkflowViewState.IdRef="FlowDecision_3">
+                                                <FlowDecision.Condition>
+                                                  <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="dt_PDF_info(0).item(&quot;Product_Code&quot;).tostring.trim&lt;&gt;&quot;&quot;" />
+                                                </FlowDecision.Condition>
+                                                <sap:WorkflowViewStateService.ViewState>
+                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                    <av:Point x:Key="ShapeLocation">840.641666666667,1197.5</av:Point>
+                                                    <av:Size x:Key="ShapeSize">84,87</av:Size>
+                                                    <av:PointCollection x:Key="TrueConnector">840.641666666667,1241 700,1241 700,1304.02</av:PointCollection>
+                                                    <av:PointCollection x:Key="FalseConnector">924.641666666667,1241 1110,1241 1110,1414</av:PointCollection>
+                                                  </scg:Dictionary>
+                                                </sap:WorkflowViewStateService.ViewState>
+                                                <FlowDecision.True>
+                                                  <FlowStep x:Name="__ReferenceID12">
+                                                    <sap:WorkflowViewStateService.ViewState>
+                                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                        <av:Point x:Key="ShapeLocation">600,1304.02</av:Point>
+                                                        <av:Size x:Key="ShapeSize">200,52</av:Size>
+                                                        <av:PointCollection x:Key="ConnectorLocation">700,1355.02 700,1385.02 699.895,1385.02 699.895,1405.02</av:PointCollection>
+                                                      </scg:Dictionary>
+                                                    </sap:WorkflowViewStateService.ViewState>
+                                                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="LogMessage_8" Message="[&quot;We have product code added on the invoice. Add it to DT&quot;]">
+                                                      <sap:WorkflowViewStateService.ViewState>
+                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                        </scg:Dictionary>
+                                                      </sap:WorkflowViewStateService.ViewState>
+                                                    </ui:LogMessage>
+                                                    <FlowStep.Next>
+                                                      <FlowStep x:Name="__ReferenceID13">
+                                                        <sap:WorkflowViewStateService.ViewState>
+                                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                            <av:Point x:Key="ShapeLocation">568.895,1405.02</av:Point>
+                                                            <av:Size x:Key="ShapeSize">262,60</av:Size>
+                                                            <av:PointCollection x:Key="ConnectorLocation">699.895,1465.02 699.895,1495.02 940,1495.02 940,1594</av:PointCollection>
+                                                          </scg:Dictionary>
+                                                        </sap:WorkflowViewStateService.ViewState>
+                                                        <Assign sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+                                                          <Assign.To>
+                                                            <OutArgument x:TypeArguments="x:Object">[io_TransactionData(in_Transaction_number-1)("Cod_Produs ")]</OutArgument>
+                                                          </Assign.To>
+                                                          <Assign.Value>
+                                                            <InArgument x:TypeArguments="x:Object">[dt_PDF_info(0).item("Product_Code").tostring]</InArgument>
+                                                          </Assign.Value>
+                                                          <sap:WorkflowViewStateService.ViewState>
+                                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                            </scg:Dictionary>
+                                                          </sap:WorkflowViewStateService.ViewState>
+                                                        </Assign>
+                                                        <FlowStep.Next>
+                                                          <FlowStep x:Name="__ReferenceID0">
+                                                            <sap:WorkflowViewStateService.ViewState>
+                                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                <av:Point x:Key="ShapeLocation">840,1594</av:Point>
+                                                                <av:Size x:Key="ShapeSize">200,52</av:Size>
+                                                                <av:PointCollection x:Key="ConnectorLocation">620,188.5 620,228.5</av:PointCollection>
+                                                              </scg:Dictionary>
+                                                            </sap:WorkflowViewStateService.ViewState>
+                                                            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="LogMessage_10" Message="[&quot;Process Ended&quot;]">
+                                                              <sap:WorkflowViewStateService.ViewState>
+                                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                                </scg:Dictionary>
+                                                              </sap:WorkflowViewStateService.ViewState>
+                                                            </ui:LogMessage>
+                                                          </FlowStep>
+                                                        </FlowStep.Next>
+                                                      </FlowStep>
+                                                    </FlowStep.Next>
+                                                  </FlowStep>
+                                                </FlowDecision.True>
+                                                <FlowDecision.False>
+                                                  <FlowStep x:Name="__ReferenceID14">
+                                                    <sap:WorkflowViewStateService.ViewState>
+                                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                        <av:Point x:Key="ShapeLocation">1010,1414</av:Point>
+                                                        <av:Size x:Key="ShapeSize">200,52</av:Size>
+                                                        <av:PointCollection x:Key="ConnectorLocation">1110,1466 1110,1496 940,1496 940,1594</av:PointCollection>
+                                                      </scg:Dictionary>
+                                                    </sap:WorkflowViewStateService.ViewState>
+                                                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="LogMessage_9" Message="[&quot;NO product code added on the invoice. &quot;]">
+                                                      <sap:WorkflowViewStateService.ViewState>
+                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                        </scg:Dictionary>
+                                                      </sap:WorkflowViewStateService.ViewState>
+                                                    </ui:LogMessage>
+                                                    <FlowStep.Next>
+                                                      <x:Reference>__ReferenceID0</x:Reference>
+                                                    </FlowStep.Next>
+                                                  </FlowStep>
+                                                </FlowDecision.False>
+                                              </FlowDecision>
+                                            </FlowStep.Next>
+                                          </FlowStep>
+                                        </FlowStep.Next>
+                                      </FlowStep>
+                                    </FlowStep.Next>
+                                  </FlowStep>
+                                </FlowStep.Next>
+                              </FlowStep>
+                            </FlowStep.Next>
+                          </FlowStep>
+                        </FlowDecision.False>
+                      </FlowDecision>
+                    </FlowStep.Next>
+                  </FlowStep>
+                </FlowStep.Next>
+              </FlowStep>
+            </FlowStep.Next>
+          </FlowStep>
+        </FlowStep.Next>
+      </FlowStep>
+      <x:Reference>__ReferenceID1</x:Reference>
+      <x:Reference>__ReferenceID2</x:Reference>
+      <x:Reference>__ReferenceID3</x:Reference>
+      <x:Reference>__ReferenceID4</x:Reference>
+      <x:Reference>__ReferenceID5</x:Reference>
+      <x:Reference>__ReferenceID6</x:Reference>
+      <x:Reference>__ReferenceID7</x:Reference>
+      <x:Reference>__ReferenceID8</x:Reference>
+      <x:Reference>__ReferenceID9</x:Reference>
+      <x:Reference>__ReferenceID10</x:Reference>
+      <x:Reference>__ReferenceID11</x:Reference>
+      <x:Reference>__ReferenceID12</x:Reference>
+      <x:Reference>__ReferenceID13</x:Reference>
+      <x:Reference>__ReferenceID14</x:Reference>
+      <x:Reference>__ReferenceID0</x:Reference>
+    </Flowchart>
+  </Sequence>
+</Activity>
